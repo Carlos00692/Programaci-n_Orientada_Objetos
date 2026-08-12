@@ -26,7 +26,3 @@ obj = Cliente("Ana Pérez", "1-2345-6789", "8888-1234", "2 horas", 1500)
 # Se llama al método registrar_cliente() del objeto obj
 # Esto ejecuta la acción definida dentro del método (el print del mensaje)
 obj.registrar_cliente()
-
-# Se muestran todos los atributos del objeto usando print
-# obj.nombre, obj.documento, etc. acceden a los datos guardados en el objeto
-print(obj.nombre, obj.documento, obj.telefono, obj.tiempo_uso, obj.saldo_pagar)
