@@ -14,25 +14,33 @@ class Computadora:
 
 
 class Sesion:
-    def __init__(self, cliente, computadora, horas):
+    def __init__(self, cliente, computadora):
         self.cliente = cliente
         self.computadora = computadora
-        self.tiempo_uso = horas
-        self.saldo_pagar = horas * computadora.precio_hora
+        self.tiempo_uso = 0
+        self.saldo_pagar = 0
+
+    def sumar_tiempo(self, horas):
+        self.tiempo_uso += horas
+        self.saldo_pagar += horas * self.computadora.precio_hora
 
     def descripcion(self):
-        # Método que devuelve un texto con los datos de la sesión
         return (f"Cliente: {self.cliente.nombre} | "
                 f"Equipo: {self.computadora.numero_equipo} | "
                 f"Tiempo: {self.tiempo_uso}h | "
                 f"Saldo: ${self.saldo_pagar}")
 
 
+def mostrar_lista(lista):
+    for sesion in lista:
+        print(sesion.descripcion())
+
+
 # ============================================================
-# Taller 3 - Lista de objetos Sesion
+# Taller 4 - CRUD sobre la lista de Sesiones
 # ============================================================
 
-# Clientes y computadoras de apoyo (necesarios para crear una Sesion)
+# Datos base para crear las sesiones iniciales
 cliente1 = Cliente("Ana Pérez", "1-2345-6789", "8888-1234")
 cliente2 = Cliente("Luis Gómez", "2-3456-7890", "8888-5678")
 cliente3 = Cliente("María Rojas", "3-4567-8901", "8888-9012")
@@ -41,70 +49,54 @@ pc1 = Computadora("PC-01", "Windows 11", 500)
 pc2 = Computadora("PC-02", "Linux Mint", 400)
 pc3 = Computadora("PC-03", "Windows 11", 500)
 
-# 1. Se crean al menos 3 objetos distintos de la clase Sesion
-sesion1 = Sesion(cliente1, pc1, 2)   # Ana usó PC-01 por 2 horas
-sesion2 = Sesion(cliente2, pc2, 3)   # Luis usó PC-02 por 3 horas
-sesion3 = Sesion(cliente3, pc3, 1)   # María usó PC-03 por 1 hora
+sesion1 = Sesion(cliente1, pc1)
+sesion1.sumar_tiempo(2)
 
-# 2. Se guardan en una lista usando append()
-sesiones = []
-sesiones.append(sesion1)
-sesiones.append(sesion2)
-sesiones.append(sesion3)
+sesion2 = Sesion(cliente2, pc2)
+sesion2.sumar_tiempo(3)
 
-# 3. Se recorre la lista con un for y se muestra cada objeto
-print("=== SESIONES REGISTRADAS ===")
-for sesion in sesiones:
-    print(sesion.descripcion())
+sesion3 = Sesion(cliente3, pc3)
+sesion3.sumar_tiempo(1)
 
-# ============================================================
-# Taller 4 - CRUD sobre la lista de Sesiones
-# ============================================================
- 
-print("=" * 40)
- 
-def mostrar_lista(lista):
-    # Función de apoyo: recorre e imprime todas las sesiones de la lista
-    for sesion in lista:
-        print(sesion.descripcion())
- 
+sesiones = [sesion1, sesion2, sesion3]
+
+print("--- Lista inicial ---")
+mostrar_lista(sesiones)
+
 # ---------- CREATE (Crear) ----------
-# Agregamos al menos 2 objetos nuevos a la lista
 cliente4 = Cliente("Pedro Solano", "4-5678-9012", "8888-3456")
 pc4 = Computadora("PC-04", "Windows 11", 450)
-sesion6 = Sesion(cliente4, pc4)
-sesion6.sumar_tiempo(4)
-sesiones.append(sesion6)
- 
+sesion4 = Sesion(cliente4, pc4)
+sesion4.sumar_tiempo(4)
+sesiones.append(sesion4)
+
 cliente5 = Cliente("Carla Vindas", "5-6789-0123", "8888-7890")
 pc5 = Computadora("PC-05", "Linux Mint", 400)
-sesion7 = Sesion(cliente5, pc5)
-sesion7.sumar_tiempo(2)
-sesiones.append(sesion7)
- 
+sesion5 = Sesion(cliente5, pc5)
+sesion5.sumar_tiempo(2)
+sesiones.append(sesion5)
+
 print("\n--- CREATE: lista después de agregar Pedro y Carla ---")
 mostrar_lista(sesiones)
- 
+
 # ---------- READ (Leer) ----------
 print("\n--- READ: se recorre y muestra la lista completa ---")
 mostrar_lista(sesiones)
- 
+
 # ---------- UPDATE (Actualizar) ----------
-# Buscamos una sesión por el número de equipo y le cambiamos un dato
 for sesion in sesiones:
     if sesion.computadora.numero_equipo == "PC-02":
-        sesion.sumar_tiempo(1)   # se le suma 1 hora más a esa sesión
+        sesion.sumar_tiempo(1)
         break
- 
+
 print("\n--- UPDATE: lista después de sumarle 1 hora a PC-02 ---")
 mostrar_lista(sesiones)
- 
+
 # ---------- DELETE (Borrar) ----------
-# Eliminamos de la lista la sesión de PC-05
 for sesion in sesiones:
     if sesion.computadora.numero_equipo == "PC-05":
         sesiones.remove(sesion)
         break
- 
+
 print("\n--- DELETE: lista después de eliminar la sesión de PC-05 ---")
 mostrar_lista(sesiones)
