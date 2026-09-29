@@ -14,13 +14,13 @@ Llevar el control de clientes, computadoras disponibles, tiempo de uso y pagos d
 
 | Archivo | Contenido |
 |---|---|
-| `cibercafe_v2.py` | **Proyecto principal** — integra todos los talleres en un solo programa funcional. |
-| `taller3.py` | Taller 3 en versión simple (lista de `Cliente`) — ejercicio independiente. |
-| `taller3_sesion.py` | Taller 3 usando `Sesion` en vez de `Cliente` — versión independiente. |
-| `taller4.py` | Taller 4 (CRUD) como archivo independiente, fuera del proyecto principal. |
-| `taller5.py` | Taller 5 (herencia) como archivo independiente. |
-| `taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
-| `diagrama_uml.mermaid` | Diagrama de clases UML completo (Taller 7). |
+| `Cibercafe_proyecto_completo.py` | **Proyecto principal** — integra todos los talleres en un solo programa funcional. |
+| `Cibercafe_Taller3.py` | Taller 3 en versión simple (lista de `Cliente`) — ejercicio independiente. |
+| `Cibercafe_Taller3.py` | Taller 3 usando `Sesion` en vez de `Cliente` — versión independiente. |
+| `Cibercafe_Taller4.py` | Taller 4 (CRUD) como archivo independiente, fuera del proyecto principal. |
+| `Cibercafe_Taller5.py` | Taller 5 (herencia) como archivo independiente. |
+| `Cibercafe_Taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
+| `diagrama_uml.mermaid`, ` Cibercafe_Taller7.py `| Diagrama de clases UML completo (Taller 7). |
 
 > Nota: `taller3.py`, `taller4.py`, `taller5.py` y `taller6.py` son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_v2.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
 
