@@ -14,14 +14,15 @@ Llevar el control de clientes, computadoras disponibles, tiempo de uso y pagos d
 
 | Archivo | Contenido |
 |---|---|
-| `cibercafe_proyecto_completo.py` | **Proyecto principal** — integra todos los talleres en un solo programa funcional.
-| `Cibercafe_Taller2.py` | Taller 2 se corrigue lo errores en las clases creadas y las que hacen falta|
-| `Cibercafe_Taller3.py` | Taller 3 Muestra una lista de lo registrado con las clases del taller anterior |
-| `Cibercafe_Taller4.py` | Taller 4 (CRUD) como archivo independiente, fuera del proyecto principal. |
-| `Cibercafe_Taller5.py` | Taller 5 (herencia) como archivo independiente. |
-| `Cibercafe_Taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
+| `cibercafe_v2.py` | **Proyecto principal** — integra todos los talleres en un solo programa funcional. |
+| `taller3.py` | Taller 3 en versión simple (lista de `Cliente`) — ejercicio independiente. |
+| `taller3_sesion.py` | Taller 3 usando `Sesion` en vez de `Cliente` — versión independiente. |
+| `taller4.py` | Taller 4 (CRUD) como archivo independiente, fuera del proyecto principal. |
+| `taller5.py` | Taller 5 (herencia) como archivo independiente. |
+| `taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
+| `diagrama_uml.mermaid` | Diagrama de clases UML completo (Taller 7). |
 
-> Nota: `Cibercafe_Taller2.py`,`Cibercafe_Taller3.py`, `Cibercafe_Taller4.py`, `Cibercafe_Taller5.py` y `Cibercafe_Taller6.py` son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_proyecto_completo.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
+> Nota: `taller3.py`, `taller4.py`, `taller5.py` y `taller6.py` son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_v2.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
 
 ---
 
@@ -59,6 +60,79 @@ Se le agregó a `Cliente`:
 
 Sobre una lista de clientes se implementó el CRUD completo (crear, leer con `__str__`, actualizar sus compras, borrar uno) y se demostró el polimorfismo recorriendo una lista mixta `[Cliente, Empleado]` donde cada objeto ejecuta su propia versión de `saludar()`.
 
+### Taller 7 — Relaciones entre clases
+Se identificaron tres relaciones reales del negocio.
+
+| Relación | Tipo | Justificación |
+|---|---|---|
+| `Sesion` → `Cliente` | Asociación | El cliente existe aunque no tenga sesiones. |
+| `Sesion` → `Computadora` | Asociación | La computadora existe aunque nadie la use. |
+| `Sesion` ◆— `Impresion` | **Composición** | Una impresión no existe sin su sesión: la `Sesion` la crea y la guarda en su lista `impresiones`. |
+
+Implementación: se creó la clase `Impresion` (`paginas`, `precio_pagina`, `costo()`) y en `Sesion` se agregaron la lista `impresiones` y los métodos `solicitar_impresion()` (crea la impresión y suma su costo al saldo) y `total_impresiones()`.
+
+---
+
+## Diagrama de clases UML
+
+El diagrama completo (clases, herencia del Taller 5 y las relaciones del Taller 7) está en `diagrama_uml.mermaid`:
+
+```mermaid
+classDiagram
+    class Usuario {
+        +nombre
+        +documento
+        +telefono
+        +saludar()
+    }
+    class Cliente {
+        +membresia
+        +compras
+        +registrar_cliente()
+        +ver_membresia()
+        +saludar()
+        +__str__()
+    }
+    class Empleado {
+        +salario
+        +cobrar_salario()
+    }
+    class Computadora {
+        +numero_equipo
+        +sistema_operativo
+        +precio_hora
+        +estado
+        +encender()
+        +apagar()
+        +cambiar_estado(nuevo_estado)
+    }
+    class Sesion {
+        +cliente
+        +computadora
+        +tiempo_uso
+        +saldo_pagar
+        +impresiones
+        +iniciar_sesion()
+        +sumar_tiempo(horas)
+        +solicitar_impresion(paginas, precio_pagina)
+        +total_impresiones()
+        +finalizar_sesion()
+        +realizar_pago()
+        +descripcion()
+    }
+    class Impresion {
+        +paginas
+        +precio_pagina
+        +costo()
+    }
+
+    Usuario <|-- Cliente : herencia
+    Usuario <|-- Empleado : herencia
+    Sesion "*" --> "1" Cliente : asociacion
+    Sesion "*" --> "1" Computadora : asociacion
+    Sesion "1" *-- "0..*" Impresion : composicion
+```
+
 ---
 
 ## Jerarquía de clases (proyecto principal)
@@ -70,21 +144,23 @@ Usuario (clase base)
 
 Computadora   (numero_equipo, sistema_operativo, precio_hora, estado)
 
-Sesion        (cliente, computadora, tiempo_uso, saldo_pagar,
-               iniciar_sesion(), sumar_tiempo(), finalizar_sesion(),
-               realizar_pago(), descripcion())
+Sesion        (cliente, computadora, tiempo_uso, saldo_pagar, impresiones,
+               iniciar_sesion(), sumar_tiempo(), solicitar_impresion(),
+               total_impresiones(), finalizar_sesion(), realizar_pago(),
+               descripcion())
+  └── Impresion  (paginas, precio_pagina, costo())   <- composición
 ```
 
 ## Cómo ejecutar
 
 ```bash
-python3 cibercafe_proyecto_completo.py
+python3 cibercafe_v2.py
 ```
 
-Esto corre, en orden, el flujo completo: registro y sesiones del Taller 2, la lista de sesiones del Taller 3, el CRUD de sesiones del Taller 4, la jerarquía de herencia del Taller 5, y el CRUD de clientes con polimorfismo del Taller 6.
+Esto corre, en orden, el flujo completo: registro y sesiones del Taller 2, la lista de sesiones del Taller 3, el CRUD de sesiones del Taller 4, la jerarquía de herencia del Taller 5, el CRUD de clientes con polimorfismo del Taller 6, y la composición Sesion–Impresion del Taller 7.
 
 Cada taller también puede probarse por separado ejecutando su archivo individual, por ejemplo:
 
 ```bash
-python3 Cibercafe_Taller6.py
+python3 taller6.py
 ```
