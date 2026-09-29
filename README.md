@@ -12,7 +12,7 @@ Llevar el control de clientes, computadoras disponibles, tiempo de uso y pagos d
 
 ## Estructura del repositorio
 
-| Archivo | Contenido |
+| Archivo | Contenido -
 |---|---|
 | `Cibercafe_proyecto_completo.py` | **Proyecto principal** — integra todos los talleres (2 al 9) en un solo programa funcional. |
 | `Cibercafe_Taller2.py` | Taller 2 — primera clase `Cliente` en Python. |
