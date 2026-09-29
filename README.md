@@ -14,15 +14,19 @@ Llevar el control de clientes, computadoras disponibles, tiempo de uso y pagos d
 
 | Archivo | Contenido |
 |---|---|
-| `Cibercafe_proyecto_completo.py` | **Proyecto principal** — integra todos los talleres en un solo programa funcional. |
-| `Cibercafe_Taller3.py` | Taller 3 en versión simple (lista de `Cliente`) — ejercicio independiente. |
-| `Cibercafe_Taller3.py` | Taller 3 usando `Sesion` en vez de `Cliente` — versión independiente. |
-| `Cibercafe_Taller4.py` | Taller 4 (CRUD) como archivo independiente, fuera del proyecto principal. |
-| `Cibercafe_Taller5.py` | Taller 5 (herencia) como archivo independiente. |
-| `Cibercafe_Taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
-| `diagrama_uml.mermaid`, ` Cibercafe_Taller7.py `| Diagrama de clases UML completo (Taller 7). |
+| `Cibercafe_proyecto_completo.py` | **Proyecto principal** — integra todos los talleres (2 al 9) en un solo programa funcional. |
+| `Cibercafe_Taller2.py` | Taller 2 — primera clase `Cliente` en Python. |
+| `Cibercafe_Taller3.py` | Taller 3 — objetos guardados en una lista y recorridos con `for`. |
+| `Cibercafe_Taller4.py` | Taller 4 — CRUD sobre una lista de `Sesion`, como archivo independiente. |
+| `Cibercafe_Taller5.py` | Taller 5 — jerarquía de herencia (`Usuario` → `Cliente`/`Empleado`), independiente. |
+| `Cibercafe_Taller6.py` | Taller 6 — CRUD de `Cliente` con `__str__` y polimorfismo, independiente. |
+| `Cibercafe_Taller7.py` | Taller 7 — relaciones entre clases (asociación y composición), independiente. |
+| `Cibercafe_Taller8.py` | Taller 8 — CRUD de `Cliente` con persistencia en SQLite, independiente. |
+| `Cibercafe_Taller9.py` | Taller 9 — interfaz gráfica (Tkinter) sobre el CRUD de SQLite, independiente. |
+| `cibercafe.db` | Base de datos SQLite generada por los Talleres 8 y 9. |
+| `README.md` | Este documento. |
 
-> Nota: ` Cibercafe_Taller7.py `  son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_v2.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
+> Nota: `Cibercafe_Taller2.py` a `Cibercafe_Taller9.py` son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`Cibercafe_proyecto_completo.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
 
 ---
 
@@ -61,7 +65,7 @@ Se le agregó a `Cliente`:
 Sobre una lista de clientes se implementó el CRUD completo (crear, leer con `__str__`, actualizar sus compras, borrar uno) y se demostró el polimorfismo recorriendo una lista mixta `[Cliente, Empleado]` donde cada objeto ejecuta su propia versión de `saludar()`.
 
 ### Taller 7 — Relaciones entre clases
-Se identificaron tres relaciones reales del negocio.
+Se identificaron tres relaciones reales del negocio, decididas con el criterio *"¿la parte existe sin el todo?"*:
 
 | Relación | Tipo | Justificación |
 |---|---|---|
@@ -70,6 +74,22 @@ Se identificaron tres relaciones reales del negocio.
 | `Sesion` ◆— `Impresion` | **Composición** | Una impresión no existe sin su sesión: la `Sesion` la crea y la guarda en su lista `impresiones`. |
 
 Implementación: se creó la clase `Impresion` (`paginas`, `precio_pagina`, `costo()`) y en `Sesion` se agregaron la lista `impresiones` y los métodos `solicitar_impresion()` (crea la impresión y suma su costo al saldo) y `total_impresiones()`.
+
+### Taller 8 — CRUD de Cliente con persistencia en SQLite
+Se le agregaron a `Cliente` cuatro métodos que conectan con una base de datos real (`cibercafe.db`), reemplazando el CRUD en memoria del Taller 6 por uno persistente:
+- **`guardar()`** → `INSERT` (Create). Controla con `try/except` que no falle si el documento ya existe (clave primaria duplicada).
+- **`listar_todos()`** → `SELECT` (Read).
+- **`actualizar()`** → `UPDATE` sobre nombre, teléfono, membresía y compras (Update).
+- **`eliminar()`** → `DELETE` (Delete).
+
+La tabla `clientes` usa `documento` como `PRIMARY KEY`. Se puede verificar el resultado abriendo `cibercafe.db` en DB Browser for SQLite.
+
+### Taller 9 — Interfaz gráfica (Tkinter)
+Se construyó la clase `AppClientes` con Tkinter, que reutiliza directamente los métodos del Taller 8 sin duplicar lógica:
+- Un campo `Entry` por atributo (documento, nombre, teléfono, membresía, compras).
+- Botones **Guardar**, **Actualizar**, **Eliminar** y **Limpiar**, conectados a `guardar()`, `actualizar()` y `eliminar()`.
+- Un `Listbox` que se refresca con `refrescar_lista()` después de cada operación, mostrando también el teléfono.
+- Al hacer clic en un cliente de la lista, sus datos se cargan en los campos para poder editarlos o borrarlos.
 
 ---
 
@@ -92,6 +112,10 @@ classDiagram
         +ver_membresia()
         +saludar()
         +__str__()
+        +guardar()
+        +listar_todos()
+        +actualizar()
+        +eliminar()
     }
     class Empleado {
         +salario
@@ -125,12 +149,20 @@ classDiagram
         +precio_pagina
         +costo()
     }
+    class AppClientes {
+        +refrescar_lista()
+        +guardar()
+        +actualizar()
+        +eliminar()
+        +seleccionar_de_lista()
+    }
 
     Usuario <|-- Cliente : herencia
     Usuario <|-- Empleado : herencia
     Sesion "*" --> "1" Cliente : asociacion
     Sesion "*" --> "1" Computadora : asociacion
     Sesion "1" *-- "0..*" Impresion : composicion
+    AppClientes ..> Cliente : usa
 ```
 
 ---
@@ -139,7 +171,8 @@ classDiagram
 
 ```
 Usuario (clase base)
-├── Cliente   (membresia, compras, ver_membresia(), saludar() sobreescrito, __str__)
+├── Cliente   (membresia, compras, ver_membresia(), saludar() sobreescrito, __str__,
+│              guardar(), listar_todos(), actualizar(), eliminar())   <- SQLite (Taller 8)
 └── Empleado  (salario, cobrar_salario())
 
 Computadora   (numero_equipo, sistema_operativo, precio_hora, estado)
@@ -149,18 +182,20 @@ Sesion        (cliente, computadora, tiempo_uso, saldo_pagar, impresiones,
                total_impresiones(), finalizar_sesion(), realizar_pago(),
                descripcion())
   └── Impresion  (paginas, precio_pagina, costo())   <- composición
+
+AppClientes   (interfaz Tkinter, Taller 9 — usa los métodos de Cliente)
 ```
 
 ## Cómo ejecutar
 
 ```bash
-python3 cibercafe_proyecto_completo.py
+python3 Cibercafe_proyecto_completo.py
 ```
 
-Esto corre, en orden, el flujo completo: registro y sesiones del Taller 2, la lista de sesiones del Taller 3, el CRUD de sesiones del Taller 4, la jerarquía de herencia del Taller 5, el CRUD de clientes con polimorfismo del Taller 6, y la composición Sesion–Impresion del Taller 7.
+Esto corre, en orden: el flujo en memoria de los Talleres 2 a 7 (registro, sesiones, lista, CRUD de sesiones, herencia, polimorfismo, composición con Impresión), luego el CRUD contra SQLite del Taller 8, y al final abre la ventana de Tkinter del Taller 9 (reutiliza `cibercafe.db`).
 
 Cada taller también puede probarse por separado ejecutando su archivo individual, por ejemplo:
 
 ```bash
-python3 Cibercafe_Taller7.py
+python3 Cibercafe_Taller9.py
 ```
