@@ -68,7 +68,7 @@ La ventana tiene tres pestañas y una barra inferior que muestra cuántos equipo
 
 ## Diagrama UML de clases
 
-![Diagrama UML de clases del cibercafé](diagrama_uml.png)
+![Diagrama UML de clases del cibercafé](diagrama_uml_entregable_final.png)
 
 **Cómo leerlo**
 
