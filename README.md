@@ -22,7 +22,7 @@ Llevar el control de clientes, computadoras disponibles, tiempo de uso y pagos d
 | `Cibercafe_Taller6.py` | Taller 6 (CRUD de Clientes + polimorfismo) como archivo independiente. |
 | `diagrama_uml.mermaid`, ` Cibercafe_Taller7.py `| Diagrama de clases UML completo (Taller 7). |
 
-> Nota: `taller3.py`, `taller4.py`, `taller5.py` y `taller6.py` son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_v2.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
+> Nota: ` Cibercafe_Taller7.py `  son versiones aisladas de cada ejercicio, pensadas para entregarse por separado. **`cibercafe_v2.py`** es la versión "oficial" del negocio, donde todo vive integrado y conectado.
 
 ---
 
@@ -154,7 +154,7 @@ Sesion        (cliente, computadora, tiempo_uso, saldo_pagar, impresiones,
 ## Cómo ejecutar
 
 ```bash
-python3 cibercafe_v2.py
+python3 cibercafe_proyecto_completo.py
 ```
 
 Esto corre, en orden, el flujo completo: registro y sesiones del Taller 2, la lista de sesiones del Taller 3, el CRUD de sesiones del Taller 4, la jerarquía de herencia del Taller 5, el CRUD de clientes con polimorfismo del Taller 6, y la composición Sesion–Impresion del Taller 7.
@@ -162,5 +162,5 @@ Esto corre, en orden, el flujo completo: registro y sesiones del Taller 2, la li
 Cada taller también puede probarse por separado ejecutando su archivo individual, por ejemplo:
 
 ```bash
-python3 taller6.py
+python3 Cibercafe_Taller7.py
 ```
