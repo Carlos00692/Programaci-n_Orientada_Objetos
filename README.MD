@@ -1,0 +1,34 @@
+# Cibercafé El Laberinto 2K
+
+Sistema de gestión para un cibercafé: registro de clientes, control de tiempo de uso de las computadoras, servicios adicionales (impresiones, fotocopias) y facturación.
+
+## Descripción del negocio
+
+"El Laberinto 2K" es un cibercafé que renta computadoras por tiempo de uso y ofrece servicios adicionales como impresiones y fotocopias. Este proyecto busca digitalizar su operación diaria: quién usa cada equipo, cuánto tiempo, cuánto debe pagar, y qué servicios adicionales consumió.
+
+## Funcionalidades principales
+
+- Registro de clientes
+- Inicio y finalización del tiempo de uso de una computadora
+- Cálculo automático del pago según el tiempo consumido
+- Registro de servicios adicionales (impresiones, fotocopias)
+- Generación de factura con el total del cliente
+- Consulta del estado de las computadoras (Disponible / Ocupada), con acceso restringido a administradores
+
+## Metodología
+
+El proyecto se desarrolló siguiendo un enfoque ágil:
+- Requerimientos funcionales y no funcionales, priorizados con MoSCoW
+- Casos de uso (actores: Empleado y Administrador)
+- Primer incremento definido por las historias Must Have
+- Historias de usuario con criterios de aceptación (Dado/Cuando/Entonces)
+- Backlog estimado con Planning Poker (Fibonacci modificado) y gestionado en Microsoft Planner
+
+## Estructura del proyecto
+
+Ver la sección "Estructura de carpetas" más abajo.
+
+## Autor
+
+Carlos Martinez
+
