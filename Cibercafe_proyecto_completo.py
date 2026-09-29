@@ -74,13 +74,17 @@ class Cliente(Usuario):
         # CREATE: inserta este cliente en la base de datos
         conexion = sqlite3.connect(NOMBRE_DB)
         cursor = conexion.cursor()
-        cursor.execute("""
-            INSERT INTO clientes (documento, nombre, telefono, membresia, compras)
-            VALUES (?, ?, ?, ?, ?)
-        """, (self.documento, self.nombre, self.telefono, self.membresia, self.compras))
-        conexion.commit()
-        conexion.close()
-        print(f"[SQLite] Cliente {self.nombre} guardado en la base de datos.")
+        try:
+            cursor.execute("""
+                INSERT INTO clientes (documento, nombre, telefono, membresia, compras)
+                VALUES (?, ?, ?, ?, ?)
+            """, (self.documento, self.nombre, self.telefono, self.membresia, self.compras))
+            conexion.commit()
+            print(f"[SQLite] Cliente {self.nombre} guardado en la base de datos.")
+        except sqlite3.IntegrityError:
+            print(f"[SQLite] Ya existe un cliente con documento {self.documento}; no se guardó de nuevo.")
+        finally:
+            conexion.close()
 
     @staticmethod
     def listar_todos():
@@ -457,6 +461,11 @@ print(sesion_t7.descripcion())
 print("=" * 40)
 
 crear_tabla()
+
+# Se eliminan primero (si existían de una corrida anterior) para que
+# el script se pueda ejecutar varias veces sin chocar con la PRIMARY KEY
+Cliente.eliminar("1-9999-0000")
+Cliente.eliminar("2-8888-1111")
 
 # CREATE
 cliente_db1 = Cliente("Mónica Rojas", "1-9999-0000", "8888-4444", "Regular", 1200)
