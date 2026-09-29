@@ -102,17 +102,20 @@ class Cliente(Usuario):
         return filas
 
     @staticmethod
-    def actualizar(documento, nuevas_compras):
-        # UPDATE: cambia las compras de un cliente por su documento
+    def actualizar(documento, nombre, telefono, membresia, compras):
+        # UPDATE: cambia TODOS los datos editables de un cliente por su documento
         conexion = sqlite3.connect(NOMBRE_DB)
         cursor = conexion.cursor()
-        cursor.execute("UPDATE clientes SET compras = ? WHERE documento = ?",
-                       (nuevas_compras, documento))
+        cursor.execute("""
+            UPDATE clientes
+            SET nombre = ?, telefono = ?, membresia = ?, compras = ?
+            WHERE documento = ?
+        """, (nombre, telefono, membresia, compras, documento))
         conexion.commit()
         filas_afectadas = cursor.rowcount
         conexion.close()
         if filas_afectadas:
-            print(f"[SQLite] Cliente {documento} actualizado. Nuevas compras: ${nuevas_compras}")
+            print(f"[SQLite] Cliente {documento} actualizado.")
         else:
             print(f"[SQLite] No se encontró un cliente con documento {documento}.")
 
@@ -479,7 +482,7 @@ Cliente.listar_todos()
 
 # UPDATE
 print()
-Cliente.actualizar("1-9999-0000", 2000)
+Cliente.actualizar("1-9999-0000", "Mónica Rojas", "8888-4444", "Regular", 2000)
 print()
 Cliente.listar_todos()
 
@@ -545,7 +548,7 @@ class AppClientes:
     def refrescar_lista(self):
         self.listbox.delete(0, tk.END)
         for documento, nombre, telefono, membresia, compras in Cliente.listar_todos():
-            self.listbox.insert(tk.END, f"{documento} | {nombre} | {membresia} | ${compras}")
+            self.listbox.insert(tk.END, f"{documento} | {nombre} | {telefono} | {membresia} | ${compras}")
 
     def guardar(self):
         if not self.entry_documento.get() or not self.entry_nombre.get():
@@ -573,10 +576,13 @@ class AppClientes:
             messagebox.showerror("Error", "Ya existe un cliente con ese documento.")
 
     def actualizar(self):
-        # Usa Cliente.actualizar(documento, nuevas_compras) del Taller 8
+        # Usa Cliente.actualizar(documento, nombre, telefono, membresia, compras)
         documento = self.entry_documento.get()
         if not documento:
             messagebox.showwarning("Falta documento", "Selecciona un cliente de la lista o escribe su documento.")
+            return
+        if not self.entry_nombre.get():
+            messagebox.showwarning("Datos incompletos", "El nombre es obligatorio.")
             return
         try:
             compras = float(self.entry_compras.get() or 0)
@@ -584,7 +590,13 @@ class AppClientes:
             messagebox.showwarning("Dato inválido", "Compras debe ser un número.")
             return
 
-        Cliente.actualizar(documento, compras)
+        Cliente.actualizar(
+            documento,
+            self.entry_nombre.get(),
+            self.entry_telefono.get(),
+            self.entry_membresia.get() or "Regular",
+            compras
+        )
         self.limpiar()
         self.refrescar_lista()
 
@@ -603,14 +615,8 @@ class AppClientes:
         if not seleccion:
             return
         texto = self.listbox.get(seleccion[0])
-        documento, nombre, membresia, compras = [p.strip() for p in texto.split("|")]
+        documento, nombre, telefono, membresia, compras = [p.strip() for p in texto.split("|")]
         compras = compras.replace("$", "")
-
-        telefono = ""
-        for fila in Cliente.listar_todos():
-            if fila[0] == documento:
-                telefono = fila[2]
-                break
 
         self.limpiar()
         self.entry_documento.insert(0, documento)
