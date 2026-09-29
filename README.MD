@@ -24,10 +24,6 @@ El proyecto se desarrolló siguiendo un enfoque ágil:
 - Historias de usuario con criterios de aceptación (Dado/Cuando/Entonces)
 - Backlog estimado con Planning Poker (Fibonacci modificado) y gestionado en Microsoft Planner
 
-## Estructura del proyecto
-
-Ver la sección "Estructura de carpetas" más abajo.
-
 ## Autor
 
 Carlos Martinez
