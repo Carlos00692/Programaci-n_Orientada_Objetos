@@ -1,2 +1,0 @@
-# El proyecto solo usa la biblioteca estándar de Python (sqlite3, tkinter).
-# Si agregas librerías externas, escríbelas aquí (una por línea).
