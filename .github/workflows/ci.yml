@@ -22,4 +22,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verificar que la lógica/datos importa sin errores
-        run: python -c "import cibercafe_Proyecto_completo; print('Capa de lógica OK')"
+        run: python -c "import cibercafe_logica; print('Capa de lógica OK')"
