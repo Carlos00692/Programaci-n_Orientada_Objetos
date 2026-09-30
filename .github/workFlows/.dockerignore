@@ -1,8 +1,0 @@
-.git
-.github
-__pycache__/
-*.pyc
-*.db
-cibercafe_v2.py
-ENTREGABLE_FINAL.py
-Cibercafe_proyecto_completo.py
